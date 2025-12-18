@@ -11,7 +11,7 @@
     <title>Профессиональные ассинизаторные услуги - мастер Назар и компания</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/lib/style.css">
 
 </head>
 <body>
@@ -269,6 +269,46 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
     });
   });
+});
+
+// Обработка формы
+const contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const message = document.getElementById('message').value;
+    
+    // В реальном проекте здесь был бы AJAX запрос к серверу
+    //alert("Спасибо, ${name}! Ваша заявка принята. Мы свяжемся с вами по номеру ${phone} в ближайшее время.");
+    const params = new URLSearchParams({ phone: phone, name: name, message:message }).toString();
+    console.log(params)
+
+    fetch(`/creat_zaiavka?${params}`)
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+    contactForm.reset();
+});
+
+// Плавная прокрутка
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if(targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        }
+    });
 });
 </script>
 
